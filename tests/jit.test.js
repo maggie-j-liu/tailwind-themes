@@ -4,6 +4,7 @@ const tailwindcss = require("tailwindcss");
 const cssMatcher = require("jest-matcher-css");
 const path = require("path");
 const fs = require("fs/promises");
+const pseudoClasses = require("./pseudoClasses");
 
 expect.extend({
   toMatchCss: cssMatcher,
@@ -24,19 +25,6 @@ const baseTheme = {
 
 const baseOptions = {
   themes: { blue: ".theme-blue" },
-};
-
-const pseudoClasses = {
-  hover: "hover",
-  focus: "focus",
-  first: "first-child",
-  last: "last-child",
-  visited: "visited",
-  checked: "checked",
-  "focus-within": "focus-within",
-  "focus-visible": "focus-visible",
-  active: "active",
-  disabled: "disabled",
 };
 
 const html = (className) => `

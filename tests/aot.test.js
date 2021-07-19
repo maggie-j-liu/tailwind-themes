@@ -2,6 +2,7 @@ const plugin = require("../index.js");
 const postcss = require("postcss");
 const tailwindcss = require("tailwindcss");
 const cssMatcher = require("jest-matcher-css");
+const pseudoClasses = require("./pseudoClasses");
 
 expect.extend({
   toMatchCss: cssMatcher,
@@ -34,19 +35,6 @@ const generatePluginCss = (config = baseTheme, options = baseOptions) => {
       from: undefined,
     })
     .then((result) => result.css);
-};
-
-const pseudoClasses = {
-  hover: "hover",
-  focus: "focus",
-  first: "first-child",
-  last: "last-child",
-  visited: "visited",
-  checked: "checked",
-  "focus-within": "focus-within",
-  "focus-visible": "focus-visible",
-  active: "active",
-  disabled: "disabled",
 };
 
 describe("works with aot mode", () => {
