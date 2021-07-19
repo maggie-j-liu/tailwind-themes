@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^27.0.6",
+    "jest-matcher-css": "^1.1.0",
+    "postcss": "^8.3.5",
     "postcss-selector-parser": "^6.0.6",
     "tailwindcss": "^2.2.4"
   }
