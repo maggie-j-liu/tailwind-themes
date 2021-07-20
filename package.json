@@ -1,18 +1,20 @@
 {
   "name": "tailwind-themes",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Tailwind CSS plugin that adds variants for multiple color themes.",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "postcss-selector-parser": "^6.0.6"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=2.0.0"
+  },
   "devDependencies": {
     "jest": "^27.0.6",
     "jest-matcher-css": "^1.1.0",
-    "postcss": "^8.3.5",
-    "postcss-selector-parser": "^6.0.6",
-    "tailwindcss": "^2.2.4"
+    "postcss": "^8.3.5"
   }
 }
