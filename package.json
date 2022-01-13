@@ -1,6 +1,6 @@
 {
   "name": "tailwind-themes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Tailwind CSS plugin that adds variants for multiple color themes.",
   "homepage": "https://github.com/maggie-j-liu/tailwind-themes",
   "bugs": "https://github.com/maggie-j-liu/tailwind-themes/issues",
@@ -15,11 +15,8 @@
   "scripts": {
     "test": "jest"
   },
-  "dependencies": {
-    "postcss-selector-parser": "^6.0.6"
-  },
   "peerDependencies": {
-    "tailwindcss": ">=2.0.0"
+    "tailwindcss": "^3.0.0"
   },
   "devDependencies": {
     "jest": "^27.0.6",

@@ -12,7 +12,6 @@ expect.extend({
 
 const baseTheme = {
   purge: ["./jit.test.html"],
-  mode: "jit",
   theme: {
     colors: {
       blue: {
@@ -50,7 +49,7 @@ const generatePluginCss = (config = baseTheme, options = baseOptions) => {
     .then((result) => result.css);
 };
 
-describe("works with jit mode", () => {
+describe("works", () => {
   it("generates variants", async () => {
     await fs.writeFile("./jit.test.html", html(`blue:text-blue-500`));
     const css = await generatePluginCss();

@@ -2,6 +2,8 @@ const plugin = require("../index.js");
 const postcss = require("postcss");
 const tailwindcss = require("tailwindcss");
 const cssMatcher = require("jest-matcher-css");
+const path = require("path");
+const fs = require("fs/promises");
 const pseudoClasses = require("./pseudoClasses");
 
 expect.extend({
@@ -9,6 +11,7 @@ expect.extend({
 });
 
 const baseTheme = {
+  purge: ["./jit.test.html"],
   theme: {
     colors: {
       blue: {
@@ -16,12 +19,22 @@ const baseTheme = {
       },
     },
   },
+  prefix: "tw-",
   corePlugins: ["textColor"],
 };
 
 const baseOptions = {
   themes: { blue: ".theme-blue" },
 };
+
+const html = (className) => `
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div class="${className}"></div>
+  </body>
+</html>
+`;
 
 const generatePluginCss = (config = baseTheme, options = baseOptions) => {
   return postcss(
@@ -37,19 +50,13 @@ const generatePluginCss = (config = baseTheme, options = baseOptions) => {
     .then((result) => result.css);
 };
 
-describe("works with aot mode", () => {
-  it("generates base variants", async () => {
-    const css = await generatePluginCss({
-      ...baseTheme,
-      variants: {
-        textColor: ["themes"],
-      },
-    });
+describe("works with prefixes", () => {
+  it("generates variants", async () => {
+    await fs.writeFile("./jit.test.html", html(`blue:tw-text-blue-500`));
+    const css = await generatePluginCss();
+    await fs.unlink("./jit.test.html");
     expect(css).toMatchCss(`
-      .text-blue-500 {
-        color: #3B82F6
-      }
-      .theme-blue .blue\\:text-blue-500 {
+      .tw-theme-blue .blue\\:tw-text-blue-500 {
         color: #3B82F6
       }
     `);
@@ -57,23 +64,17 @@ describe("works with aot mode", () => {
 
   for (const [variant, pseudoClass] of Object.entries(pseudoClasses)) {
     it(`generates ${variant} variants`, async () => {
+      await fs.writeFile(
+        `./jit-${variant}.test.html`,
+        html(`blue:${variant}:tw-text-blue-500`)
+      );
       const css = await generatePluginCss({
         ...baseTheme,
-        variants: {
-          textColor: [variant, "themes"],
-        },
+        purge: [`./jit-${variant}.test.html`],
       });
+      await fs.unlink(`./jit-${variant}.test.html`);
       expect(css).toMatchCss(`
-        .text-blue-500 {
-          color: #3B82F6
-        }
-        .${variant}\\:text-blue-500:${pseudoClass} {
-          color: #3B82F6
-        }
-        .theme-blue .blue\\:text-blue-500 {
-          color: #3B82F6
-        }
-        .theme-blue .blue\\:${variant}\\:text-blue-500:${pseudoClass} {
+        .tw-theme-blue .blue\\:${variant}\\:tw-text-blue-500:${pseudoClass} {
           color: #3B82F6
         }
       `);
